@@ -3,7 +3,6 @@ package model;
 import java.util.Objects;
 
 public class Book {
-    //TODO realise class
     private final String author;
     private final String title;
     private final int id;
