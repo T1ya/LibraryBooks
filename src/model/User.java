@@ -14,7 +14,7 @@ public class User {
 
     private MyList<Book> userBooks;
 
-    public User(String email, String password) {
+    public User(String string, String s) {
         this.email = email;
         this.password = password;
         this.role = Role.USER;
