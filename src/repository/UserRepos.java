@@ -3,7 +3,6 @@ package repository;
 import model.User;
 
 public interface UserRepos {
-
     User addUser(String email, String password);
 
     // Read
