@@ -65,9 +65,9 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User user)) return false;
-        return Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(email, user.email) && Objects.equals(password, user.password) && role == user.role && Objects.equals(userBooks, user.userBooks);
     }
 
     @Override
@@ -76,20 +76,3 @@ public class User {
     }
 }
 
-public interface UserRepository {
-
-    // CRUD
-
-    User addUser(String email, String password);
-
-    // Read
-
-    boolean isEmailExist(String email);
-
-    User getUserByEmail(String email);
-
-    // Update
-    boolean updatePassword(String email, String newPassword);
-
-
-}
