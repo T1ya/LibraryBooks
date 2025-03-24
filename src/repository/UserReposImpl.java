@@ -20,10 +20,7 @@ public class UserReposImpl implements UserRepos {
         admin.setRole(Role.ADMIN);
         user.setRole(Role.USER);
         users.addAll(admin, user);
-
     }
-
-
 
     @Override
     public User addUser(String email, String password) {

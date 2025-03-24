@@ -8,10 +8,7 @@ import java.util.Objects;
 public class User {
     private String email;
     private String password;
-
     private Role role;
-
-
     private MyList<Book> userBooks;
 
     public User(String string, String s) {
@@ -50,6 +47,10 @@ public class User {
 
     public void setUserBooks(MyList<Book> userBooks) {
         this.userBooks = userBooks;
+    }
+
+    public void addUserBook(Book book) {
+        userBooks.add(book);
     }
 
     @Override

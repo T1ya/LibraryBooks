@@ -42,11 +42,9 @@ public class BookReposImpl implements BookRepos {
         for (Book b : books) {
             if (b.getAuthor().equals(author)) {
                 result.add(b);
-
             }
         }
         return result;
-
     }
 
     @Override
@@ -60,7 +58,13 @@ public class BookReposImpl implements BookRepos {
     }
 
     @Override
-    public MyList<Book> getFreeBooks() {
+    public Book findBook(String title, String author) {
+        for (Book b : books) {
+            if (b.getTitle().contains(title.toLowerCase())
+                && b.getAuthor().contains(author.toLowerCase())) {
+                return b;
+            }
+        }
         return null;
     }
 
@@ -71,7 +75,5 @@ public class BookReposImpl implements BookRepos {
                 books.remove(id);
             }
         }
-
-
     }
 }
