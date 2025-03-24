@@ -15,6 +15,7 @@ public interface MainService {
     //Work with Books
     Book addBook(String title , String author);
     Book takeBook(String title , String author);
+    Book findBook(String title , String author);
     Book returnBook(Book book);
     Book deleteBook(int id);
     void updateBookStatus(int id, boolean isBusy);

@@ -39,12 +39,12 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "author='" + author + '\'' +
-                ", title='" + title + '\'' +
-                ", id=" + id +
-                ", isBusy=" + isBusy +
-                '}';
+        return String.format("Book [ID: %d, Title: '%s', Author: '%s', Status: %s]",
+                id, title, author, isBusy ? "Borrowed" : "Available");
+    }
+
+    public String getInfo() {
+        return String.format("\"%s\" by %s", title, author);
     }
 
     @Override
