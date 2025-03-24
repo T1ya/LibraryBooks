@@ -29,21 +29,21 @@ public class MainServiceImpl implements MainService {
     public User registerUser(String email, String password) {
         // Check mail
         if (!UserValidation.isEmailValid(email)) {
-            //print error - invalid email
+            Print.Error("invalid email");
             return null;
         }
         //Check pass
         if (!UserValidation.passwordIsValid(password)) {
-            //print error - invalid password
+            Print.Error("invalid password!");
             return null;
         }
         // check if user is already in system
         if (userRepos.getUserByEmail(email) != null) {
-            //print error - user is in system
+            Print.Error("user is in system!");
             return null;
         }
         //add user to repository
-        //print success - user was added
+        Print.Success("user added");
         return userRepos.addUser(email, password);
     }
 
@@ -53,6 +53,7 @@ public class MainServiceImpl implements MainService {
         if (user == null) return false; // no user found in system
         if (user.getPassword().equals(password)) { //check password
             activeUser = user;
+            Print.Success("user login");
             return true;
         }
         return false;
@@ -61,16 +62,16 @@ public class MainServiceImpl implements MainService {
     @Override
     public void logoutUser() {
         if (activeUser != null) {
-            System.out.println("User logged out succesfully");
+            Print.Success("User logged out");
             activeUser = null;
         }
-        else System.out.println("There is no active user in system");
+        else Print.Error("There is no active user in system");
     }
 
     @Override
     public User blockUser(String email) {
         if (!isAdmin()) {
-            System.out.println("Access denied! Only admins can block users.");
+            Print.Error("Access denied! Only admins can block users.");
             return null;
         }
 
@@ -82,10 +83,10 @@ public class MainServiceImpl implements MainService {
         User user = userRepos.getUserByEmail(email);
         if (user != null) {
             user.setRole(Role.BLOCKED);
-            System.out.println("User " + email + " blocked succesfully");
+            Print.Success("User " + email + " blocked succesfully");
             return user;
         }
-        System.out.println("There is no user" + email + " in the system");
+        Print.Error("There is no user" + email + " in the system");
         return null;
     }
 
@@ -97,11 +98,11 @@ public class MainServiceImpl implements MainService {
     @Override
     public Book addBook(String title, String author) {
         if (!isAdmin()) {
-            System.out.println("Access denied! Only admins can add new books.");
+            Print.Error("Access denied! Only admins can add new books.");
             return null;
         }
         //push user to repository
-        System.out.printf("Book \"%s\" (%s) added to the library\n", title, author);
+        Print.Success("Book added to the library");
         return bookRepos.addBook(title, author);
     }
 
@@ -114,7 +115,7 @@ public class MainServiceImpl implements MainService {
             activeUser.addUserBook(book);
             return book;
         } else {
-            System.out.println("Book is already taken or not found!");
+            Print.Error("Book is already taken or not found!");
         }
         return null;
     }
@@ -122,15 +123,16 @@ public class MainServiceImpl implements MainService {
     @Override
     public Book returnBook(Book book) {
         if (activeUser == null) {
-            System.out.println("Please log in to return a book.");
+            Print.Error("Please log in to return a book.");
             return null;
         }
         if (activeUser.getUserBooks().contains(book)) {
             updateBookStatus(book.getId(), false);
             activeUser.getUserBooks().remove(book);
+            Print.Success("Book is returned");
             return book;
         } else {
-            System.out.println("This book was not borrowed by the user!");
+            Print.Error("This book was not borrowed by the user!");
         }
         return null;
     }
@@ -140,21 +142,22 @@ public class MainServiceImpl implements MainService {
         Book book = bookRepos.getById(id);
         if (book != null && !book.isBusy()) {
             bookRepos.deleteBookById(id);
+            Print.Success("Book was deleted from the library");
             return book;
         } else {
-            System.out.println("Book is not found or currently borrowed by a user.");
+            Print.Error("Book is not found or currently borrowed by a user.");
         }
         return null;
     }
 
     @Override
     public void updateBookStatus(int id, boolean isBusy) {
-        Book book = bookRepos.getById(id); // Получаем книгу из репозитория по ID
-        if (book != null) { // Проверяем, существует ли книга
-            book.setBusy(isBusy); // Обновляем статус книги
-            System.out.println("Book ID: " + id + " is " + (isBusy ? "Busy" : "Free") + " now");
+        Book book = bookRepos.getById(id);
+        if (book != null) {
+            book.setBusy(isBusy);
+            Print.Success("Book ID: " + id + " is " + (isBusy ? "Busy" : "Free") + " now");
         } else {
-            System.out.println("Book not found in the repository!");
+            Print.Error("Book not found in the repository!");
         }
     }
 
@@ -188,7 +191,7 @@ public class MainServiceImpl implements MainService {
     @Override
     public MyList<Book> getUserBooks() {
         if (activeUser == null) {
-            System.out.println("You must be logged in to view your books.");
+            Print.Error("You must be logged in to view your books.");
             return null;
         }
         return activeUser.getUserBooks();
