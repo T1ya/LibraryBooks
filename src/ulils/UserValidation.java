@@ -35,7 +35,7 @@ public class UserValidation {
     public static boolean passwordIsValid(String password) {
         //проверка на длину пароля в 8 символов. И на null
         if (password == null || password.length() < EMAIL_MIN_LENGTH) {
-            System.out.println("Oшибка - длина пароля должна быть больше 8 символов.");
+            Print.Error("password is less than 8 symbols");
             return false;
         }
 
@@ -55,13 +55,13 @@ public class UserValidation {
             }
         }
         //добавим вывод для неверного пароля
-        StringBuilder sb = new StringBuilder("Ошибка - пароль должен содержать как минимум");
-        if (!hasDigit) sb.append(" одну цифру;");
-        if (!hasLowerCase) sb.append(" одну строчную букву;");
-        if (!hasUpperCase) sb.append(" одну заглавную букву;");
-        if (!hasSymbol) sb.append(" один спецсимвол: ").append(SYMBOLS);
+        StringBuilder sb = new StringBuilder("password should contain at least");
+        if (!hasDigit) sb.append(" one digit;");
+        if (!hasLowerCase) sb.append(" one lower case letter;");
+        if (!hasUpperCase) sb.append(" one upper case letter;");
+        if (!hasSymbol) sb.append(" one symbol: ").append(SYMBOLS);
         sb.append(".");
-        System.out.println(sb.toString());
+        Print.Error(sb.toString());
         return false;
     }
 }

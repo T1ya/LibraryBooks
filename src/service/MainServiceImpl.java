@@ -39,11 +39,11 @@ public class MainServiceImpl implements MainService {
         }
         // check if user is already in system
         if (userRepos.getUserByEmail(email) != null) {
-            Print.Error("user is in system!");
+            Print.Error("user" + email + "is already in the system!");
             return null;
         }
         //add user to repository
-        Print.Success("user added");
+        Print.Success("user" + email + " added into the system");
         return userRepos.addUser(email, password);
     }
 
@@ -53,7 +53,7 @@ public class MainServiceImpl implements MainService {
         if (user == null) return false; // no user found in system
         if (user.getPassword().equals(password)) { //check password
             activeUser = user;
-            Print.Success("user login");
+            Print.Success("user " + email + " logged in");
             return true;
         }
         return false;
@@ -62,10 +62,9 @@ public class MainServiceImpl implements MainService {
     @Override
     public void logoutUser() {
         if (activeUser != null) {
-            Print.Success("User logged out");
+            Print.Success("User " + activeUser.getEmail() + " logged out");
             activeUser = null;
-        }
-        else Print.Error("There is no active user in system");
+        } else Print.Error("There is no active user in system");
     }
 
     @Override
@@ -102,7 +101,7 @@ public class MainServiceImpl implements MainService {
             return null;
         }
         //push user to repository
-        Print.Success("Book added to the library");
+        Print.Success("Book " + title + "added to the library");
         return bookRepos.addBook(title, author);
     }
 
@@ -129,7 +128,6 @@ public class MainServiceImpl implements MainService {
         if (activeUser.getUserBooks().contains(book)) {
             updateBookStatus(book.getId(), false);
             activeUser.getUserBooks().remove(book);
-            Print.Success("Book is returned");
             return book;
         } else {
             Print.Error("This book was not borrowed by the user!");
@@ -138,11 +136,22 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
+    public Book findBook(String title, String author) {
+        Book book = bookRepos.findBook(title, author);
+        if (book != null) {
+            Print.Success(book.toString());
+        } else {
+            Print.Error("Book was not found");
+        }
+        return book;
+    }
+
+    @Override
     public Book deleteBook(int id) {
         Book book = bookRepos.getById(id);
         if (book != null && !book.isBusy()) {
             bookRepos.deleteBookById(id);
-            Print.Success("Book was deleted from the library");
+            Print.Success(book.getInfo() + " was deleted from the library");
             return book;
         } else {
             Print.Error("Book is not found or currently borrowed by a user.");
@@ -155,9 +164,9 @@ public class MainServiceImpl implements MainService {
         Book book = bookRepos.getById(id);
         if (book != null) {
             book.setBusy(isBusy);
-            Print.Success("Book ID: " + id + " is " + (isBusy ? "Busy" : "Free") + " now");
+            Print.Success(book.getInfo() + " is " + (isBusy ? "Busy" : "Avaliable") + " now");
         } else {
-            Print.Error("Book not found in the repository!");
+            Print.Error("Book was not found in the repository!");
         }
     }
 

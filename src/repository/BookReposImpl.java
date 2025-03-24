@@ -1,6 +1,8 @@
 package repository;
 
 import model.Book;
+import model.Role;
+import model.User;
 import ulils.MyArrayList;
 import ulils.MyList;
 
@@ -10,8 +12,18 @@ public class BookReposImpl implements BookRepos {
     private final MyList<Book> books;
     private final AtomicInteger currentId = new AtomicInteger(1);
 
-    public BookReposImpl(MyList<Book> books) {
+    public BookReposImpl() {
         this.books = new MyArrayList<>();
+        addBooks();
+    }
+
+    private void addBooks() {
+        books.add(new Book("J.D. Salinger", "The Catcher in the Rye", currentId.getAndIncrement()));
+        books.add(new Book("M. Bulgakov","The Master and Margarita", currentId.getAndIncrement()));
+        books.add(new Book("George Orwell","1984",  currentId.getAndIncrement()));
+        books.add(new Book("F. Nietzsche", "The Antichrist", currentId.getAndIncrement()));
+        books.add(new Book( "G. Chaucer","The Canterbury Tales", currentId.getAndIncrement()));
+        books.add(new Book( "test","test", currentId.getAndIncrement()));
     }
 
     @Override
@@ -60,8 +72,8 @@ public class BookReposImpl implements BookRepos {
     @Override
     public Book findBook(String title, String author) {
         for (Book b : books) {
-            if (b.getTitle().contains(title.toLowerCase())
-                && b.getAuthor().contains(author.toLowerCase())) {
+            if (b.getTitle().toLowerCase().contains(title.toLowerCase()) &&
+                b.getAuthor().toLowerCase().contains(author.toLowerCase())) {
                 return b;
             }
         }
