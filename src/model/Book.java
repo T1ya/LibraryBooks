@@ -46,7 +46,7 @@ public class Book {
                 ", isBusy=" + isBusy +
                 '}';
     }
-    //TODO I have questions about this realisation - Ilya
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Book)) return false;

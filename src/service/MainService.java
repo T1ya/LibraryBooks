@@ -8,25 +8,19 @@ import ulils.MyList;
 public interface MainService {
     //Work with Users
     User registerUser(String email , String password);
-    User loginUser(String email , String password);
-    User logoutUser();
-    User deleteUser(String email);
+    boolean loginUser(String email , String password);
+    void logoutUser();
     User blockUser(String email);
     User getActiveUser();
     //Work with Books
     Book addBook(String title , String author);
-    Book giveBook(String title , String author);
+    Book takeBook(String title , String author);
     Book returnBook(Book book);
     Book deleteBook(int id);
+    void updateBookStatus(int id, boolean isBusy);
     //Work with Book lists
     MyList<Book> getFreeBooks();
     MyList<Book> getBusyBooks();
     MyList<Book> getAllBooks();
     MyList<Book> getUserBooks();
-
-
-
-
-
-
 }
