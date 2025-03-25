@@ -28,7 +28,7 @@ public class BookReposImpl implements BookRepos {
 
     @Override
     public Book addBook(String title, String author) {
-        Book book = new Book(title, author, currentId.getAndIncrement());
+        Book book = new Book(author, title, currentId.getAndIncrement());
         books.add(book);
         return book;
     }
@@ -52,7 +52,7 @@ public class BookReposImpl implements BookRepos {
     public MyList<Book> getByAuthor(String author) {
         MyList<Book> result = new MyArrayList<>();
         for (Book b : books) {
-            if (b.getAuthor().equals(author)) {
+            if (b.getAuthor().toLowerCase().contains(author.toLowerCase())) {
                 result.add(b);
             }
         }
