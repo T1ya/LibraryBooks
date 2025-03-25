@@ -9,7 +9,11 @@ import java.util.Scanner;
 
 public class Menu {
     private final MainService service;
+    private boolean isTestMode = false;
 
+    public void enableTestMode() {
+        isTestMode = true;
+    }
     public Menu(MainService service) {
         this.service = service;
     }
@@ -187,6 +191,10 @@ public class Menu {
     }
 
     private void pause() {
+        if (isTestMode) {
+            System.out.println("[Test Mode] Skipping pause...");
+            return; // Пропускаем паузу в тестовом режиме
+        }
         System.out.println("\nPress any key to continue...");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
