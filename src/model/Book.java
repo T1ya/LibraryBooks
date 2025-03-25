@@ -51,7 +51,10 @@ public class Book {
     public boolean equals(Object o) {
         if (!(o instanceof Book)) return false;
         Book book = (Book) o;
-        return id == book.id && isBusy == book.isBusy && Objects.equals(author, book.author) && Objects.equals(title, book.title);
+        return id == book.id
+                && isBusy == book.isBusy
+                && Objects.equals(author, book.author)
+                && Objects.equals(title, book.title);
     }
 
     @Override
